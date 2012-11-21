@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-### FUNCTIONS ###
+### FIND FUNCTIONS ###
 jpg(){ find $i -maxdepth 1 -name "*.[jJ][pP][gG]" -print; }
 mv_jpg(){ find $i -maxdepth 1 -name "*.[jJ][pP][gG]" -exec mv '{}' $pict_down \;
 }
@@ -51,10 +51,10 @@ mv_flv(){ find $i -maxdepth 1 -name "*.[fF][lL][vV]" -exec mv '{}' $vid_down \;
 }
 
 
-### SCRIPT ###
+### PRINT SCRIPT ###
 script_print(){
 for i in $LIST; do
-        for j in $ALEGERE; do
+        for j in $CHOICE; do
                 $j;
         done;
 done;
@@ -64,13 +64,13 @@ done;
 ### MOVE SCRIPT ###
 script_mv(){
 for i in $LIST; do
-        for j in $ALEGERE; do
+        for j in $CHOICE; do
                mv_$j;
         done;
 done;
 }
 
-### VARIABILES ###
+### VARIABLES ###
 dow=$HOME/Downloads
 pict=$HOME/Pictures
 pict_down=$HOME/Pictures/Downloads
@@ -81,7 +81,7 @@ doc_down=$HOME/Documents/Downloads
 vid=$HOME/Videos
 vid_down=$HOME/Videos/Downloads
 LIST=$(echo {$dow,$pict,$music,$doc,$vid})
-ALEGERE=''
+CHOICE=''
 finished=0
 
 ### DIRECTORY CREATION ###
@@ -104,7 +104,9 @@ fi;
 
 ### ZENITY ###
 zenity_choose(){
-zenity_ans=$(zenity  --list  --text "What file types do you want to move?" --checklist  --column "Pick" --column "File types" \
+zenity_ans=$(zenity  --list  --text "What file types do you want to move?" --checklist  \
+--column "Pick" \
+--column "File types" \
 FALSE "jpg" \
 FALSE "png" \
 FALSE "pdf" \
@@ -115,8 +117,9 @@ FALSE "mpeg" \
 FALSE "mpg" \
 FALSE "flac" \
 FLASE "flv" \
-FALSE "wav" --separator=":");
-ALEGERE=$(echo $zenity_ans | sed 's/:/\ /g');
+FALSE "wav" \
+--separator=":");
+CHOICE=$(echo $zenity_ans | sed 's/:/\ /g');
 }
 
 
@@ -124,10 +127,10 @@ ALEGERE=$(echo $zenity_ans | sed 's/:/\ /g');
 zenity_loop(){
 while [ $finished != 1 ]; do
 zenity_choose
-	if [ -z "$ALEGERE" ];
+	if [ -z "$CHOICE" ];
 		then
 			if $(zenity --question --text="Continue cleaning" );then
-				until [ -n "$ALEGERE" ]; do
+				until [ -n "$CHOICE" ]; do
 				zenity_choose;
 				done;
 			else exit;
