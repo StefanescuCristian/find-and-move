@@ -71,7 +71,7 @@ for i in $LIST; do
     mv_$j;  
   done;
 done;
-) | zenity --progress --percentage=0 --text="Moving...";
+) | zenity --progress --percentage=0 --auto-close --text="Moving...";
 }
 
 ### VARIABLES ###
