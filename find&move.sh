@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-### FUNCTIONS ###
+### FIND FUNCTIONS ###
 jpg(){ find $i -maxdepth 1 -name "*.[jJ][pP][gG]" -print; }
 mv_jpg(){ find $i -maxdepth 1 -name "*.[jJ][pP][gG]" -exec mv '{}' $pict_down \;
 }
@@ -51,7 +51,7 @@ mv_flv(){ find $i -maxdepth 1 -name "*.[fF][lL][vV]" -exec mv '{}' $vid_down \;
 }
 
 
-### SCRIPT ###
+### PRINT SCRIPT ###
 script_print(){
 (
 for i in $LIST; do
@@ -74,7 +74,7 @@ done;
 ) | zenity --progress --percentage=0 --text="Moving...";
 }
 
-### VARIABILES ###
+### VARIABLES ###
 dow=$HOME/Downloads
 pict=$HOME/Pictures
 pict_down=$HOME/Pictures/Downloads
@@ -108,7 +108,11 @@ fi;
 
 ### ZENITY ###
 zenity_choose(){
-zenity_ans=$(zenity  --list  --text "What file types do you want to move?" --checklist  --column "Pick" --column "File types" \
+zenity_ans=$(zenity  --list  \
+--text "What file types do you want to move?" \
+--checklist  \
+--column "Pick" \
+--column "File types" \
 FALSE "jpg" \
 FALSE "png" \
 FALSE "pdf" \
@@ -120,7 +124,8 @@ FALSE "mpg" \
 FALSE "flac" \
 FLASE "flv" \
 FALSE "avi" \
-FALSE "wav" --separator=":");
+FALSE "wav" \
+--separator=":");
 CHOICE=$(echo $zenity_ans | sed 's/:/\ /g');
 }
 
